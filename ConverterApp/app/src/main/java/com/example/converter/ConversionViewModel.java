@@ -16,7 +16,9 @@ public class ConversionViewModel extends ViewModel {
     private final MutableLiveData<String> dataTo = new MutableLiveData<String>();
 
     public void setNumber(String item) {
-        if (dataFrom.getValue() != null)
+        if (dataFrom.getValue()!=null&&dataFrom.getValue().equals("0"))
+            dataFrom.setValue(null);
+        else if (dataFrom.getValue() != null)
             dataFrom.setValue(dataFrom.getValue() + item);
         else
             dataFrom.setValue(item);
@@ -132,7 +134,7 @@ public class ConversionViewModel extends ViewModel {
     }
 
     public void setDot() {
-        if (dataFrom.getValue().contains("."))
+        if (Objects.requireNonNull(dataFrom.getValue()).contains("."))
             return;
         else if (dataFrom.getValue() == null)
             dataFrom.setValue("0.");
@@ -155,6 +157,7 @@ public class ConversionViewModel extends ViewModel {
             dataTo.setValue("0");
             dataFrom.setValue("0");
         }
+        convert();
     }
 
     public void copyFrom(ClipboardManager clipboardManager) {
@@ -168,7 +171,8 @@ public class ConversionViewModel extends ViewModel {
     }
 
     public void swap() {
+        String temp = dataFrom.getValue();
         dataFrom.setValue(dataTo.getValue());
-        convert();
+        dataTo.setValue(temp);
     }
 }

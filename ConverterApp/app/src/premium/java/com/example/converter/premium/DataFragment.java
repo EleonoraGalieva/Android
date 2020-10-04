@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,7 +32,7 @@ public class DataFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        conversionViewModel = ViewModelProviders.of(getActivity()).get(ConversionViewModel.class);
+        conversionViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(ConversionViewModel.class);
     }
 
     @Override
@@ -50,7 +51,13 @@ public class DataFragment extends Fragment {
 
         btnCopyFrom.setOnClickListener(item -> conversionViewModel.copyFrom((ClipboardManager) Objects.requireNonNull(getContext()).getSystemService(Context.CLIPBOARD_SERVICE)));
         btnCopyTo.setOnClickListener(item -> conversionViewModel.copyTo((ClipboardManager) Objects.requireNonNull(getContext()).getSystemService(Context.CLIPBOARD_SERVICE)));
-        btnSwap.setOnClickListener(item -> conversionViewModel.swap());
+        btnSwap.setOnClickListener(v -> {
+            conversionViewModel.swap();
+            String temp = spinnerFrom.getSelectedItem().toString();
+            spinnerFrom.setSelection(((ArrayAdapter) spinnerFrom.getAdapter()).getPosition(spinnerTo.getSelectedItem().toString()));
+            spinnerTo.setSelection(((ArrayAdapter) spinnerFrom.getAdapter()).getPosition(temp));
+            conversionViewModel.setPercent(spinnerFrom.getSelectedItem().toString(), spinnerTo.getSelectedItem().toString());
+        });
 
         spinnerTo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

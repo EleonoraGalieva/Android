@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import java.util.Objects;
+
 public class KeyboardFragment extends Fragment {
 
     private ConversionViewModel conversionViewModel;
@@ -19,7 +21,7 @@ public class KeyboardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        conversionViewModel = ViewModelProviders.of(getActivity()).get(ConversionViewModel.class);
+        conversionViewModel = ViewModelProviders.of(Objects.requireNonNull(getActivity())).get(ConversionViewModel.class);
     }
 
     @Override
@@ -56,6 +58,6 @@ public class KeyboardFragment extends Fragment {
         buttonConv.setOnClickListener(item -> conversionViewModel.convert());
         buttonC.setOnClickListener(item -> conversionViewModel.setC());
 
-        return inflater.inflate(R.layout.fragment_keyboard, container, false);
+        return view;
     }
 }
