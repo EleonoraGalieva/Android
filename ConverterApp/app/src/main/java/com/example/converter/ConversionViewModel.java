@@ -16,9 +16,9 @@ public class ConversionViewModel extends ViewModel {
     private final MutableLiveData<String> dataTo = new MutableLiveData<String>();
 
     public void setNumber(String item) {
-        if (dataFrom.getValue()!=null&&dataFrom.getValue().equals("0"))
+        if (dataFrom.getValue() != null && dataFrom.getValue().equals("0") && item.equals("0"))
             dataFrom.setValue(null);
-        else if (dataFrom.getValue() != null)
+        else if (dataFrom.getValue() != null && !dataFrom.getValue().equals("0"))
             dataFrom.setValue(dataFrom.getValue() + item);
         else
             dataFrom.setValue(item);
