@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
 import com.example.converter.R;
+import com.example.converter.Type;
 
 public class ConversionActivity extends AppCompatActivity {
 
@@ -22,23 +23,19 @@ public class ConversionActivity extends AppCompatActivity {
         spinnerFrom = findViewById(R.id.spinnerFrom);
         spinnerTo = findViewById(R.id.spinnerTo);
 
-        Intent intent = getIntent();
-        String action = intent.getAction();
+        Bundle extras = getIntent().getExtras();
+        Type myEnum = (Type) extras.getSerializable("type");
 
-        assert action != null;
-        switch (action) {
-            case "android.intent.action.Weight": {
-                typeOfSpinnerArray = R.array.weight_array;
-            }
-            break;
-            case "android.intent.action.Distance": {
-                typeOfSpinnerArray = R.array.dist_array;
-            }
-            break;
-            case "android.intent.action.Currency": {
+        switch (myEnum) {
+            case currency:
                 typeOfSpinnerArray = R.array.currency_array;
-            }
-            break;
+                break;
+            case weight:
+                typeOfSpinnerArray = R.array.weight_array;
+                break;
+            case distance:
+                typeOfSpinnerArray = R.array.dist_array;
+                break;
         }
 
         ArrayAdapter<CharSequence> adapterFrom = ArrayAdapter.createFromResource(this,
