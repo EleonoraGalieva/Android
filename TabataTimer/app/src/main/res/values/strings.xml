@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">TabataApplication</string>
+    <string name="create_new_sequence">Create new sequence</string>
+    <string name="tabata_timer">Tabata timer</string>
 </resources>
