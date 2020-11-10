@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.graphics.Color;
 import android.os.Bundle;
 
+import com.example.tabataapplication.Adapters.SeqDataAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
