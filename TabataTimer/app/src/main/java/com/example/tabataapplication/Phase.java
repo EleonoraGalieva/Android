@@ -15,12 +15,6 @@ public class Phase {
         this.actionImage = actionImage;
     }
 
-    public Phase(Action actionName, int time, String description) {
-        this.actionName = actionName;
-        this.time = time;
-        this.description = description;
-    }
-
     public void setActionImage(Drawable actionImage) {
         this.actionImage = actionImage;
     }

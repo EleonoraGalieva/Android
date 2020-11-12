@@ -8,5 +8,13 @@
     <string name="example_time">10:00</string>
     <string name="previous">previous</string>
     <string name="next">next</string>
-    <string name="actionimage">actionImage</string>
+    <string name="action_image">actionImage</string>
+    <string name="create_new_phase">Create new phase</string>
+    <string name="preparation">preparation</string>
+    <string name="relax">relax</string>
+    <string name="relax_between_sets">relax between sets</string>
+    <string name="edit_image">edit_image</string>
+    <string name="add_some_description">Add some description</string>
+    <string name="increase">increase</string>
+    <string name="decrease">decrease</string>
 </resources>

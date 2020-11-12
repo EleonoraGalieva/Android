@@ -20,6 +20,7 @@
         android:id="@+id/btnSeqAdd"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
         android:text="@string/create_new_sequence" />
 
     <androidx.recyclerview.widget.RecyclerView
@@ -27,5 +28,4 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
-
 </LinearLayout>
