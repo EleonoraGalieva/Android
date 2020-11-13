@@ -8,10 +8,9 @@ public class Phase {
     private String description;
     private Drawable actionImage;
 
-    public Phase(Action actionName, int time, String description, Drawable actionImage) {
+    public Phase(Action actionName, int time, Drawable actionImage) {
         this.actionName = actionName;
         this.time = time;
-        this.description = description;
         this.actionImage = actionImage;
     }
 
@@ -35,8 +34,25 @@ public class Phase {
         this.description = description;
     }
 
-    public Action getActionName() {
-        return actionName;
+    public String getActionName() {
+        String res;
+        switch (actionName) {
+            case PREPARATION:
+                res = "Preparation";
+                break;
+            case WORK:
+                res = "Work";
+                break;
+            case RELAX:
+                res = "Relax";
+                break;
+            case RELAX_BETWEEN_SETS:
+                res = "Relax between sets";
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + actionName);
+        }
+        return res;
     }
 
     public int getTime() {

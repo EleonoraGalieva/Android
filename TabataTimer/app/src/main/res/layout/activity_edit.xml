@@ -83,5 +83,15 @@
 
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center_horizontal"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/create"
+            android:textColor="#000" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

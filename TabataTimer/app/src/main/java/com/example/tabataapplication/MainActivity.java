@@ -4,8 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.example.tabataapplication.Adapters.SeqDataAdapter;
 
@@ -16,16 +19,29 @@ public class MainActivity extends AppCompatActivity {
     List<Sequence> sequenceList = new ArrayList<>();
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
+    private Button btnSeqAdd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         recyclerView = findViewById(R.id.seqList);
+        btnSeqAdd = findViewById(R.id.btnSeqAdd);
         setInitialData();
+
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         SeqDataAdapter seqDataAdapter = new SeqDataAdapter(this, sequenceList);
         recyclerView.setAdapter(seqDataAdapter);
+
+        btnSeqAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setInitialData() {

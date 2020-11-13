@@ -1,6 +1,7 @@
 package com.example.tabataapplication.Adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.tabataapplication.R;
 
 import com.example.tabataapplication.Sequence;
+import com.example.tabataapplication.TimerActivity;
 
 import java.util.List;
 
@@ -37,6 +39,13 @@ public class SeqDataAdapter extends RecyclerView.Adapter<SeqViewHolder> {
         Sequence sequence = sequences.get(position);
         holder.seqTitle.setText(sequence.getTitle());
         holder.seqItemLayout.setBackgroundColor(sequence.getColour());
+        holder.seqItemLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(inflater.getContext(), TimerActivity.class);
+                inflater.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override

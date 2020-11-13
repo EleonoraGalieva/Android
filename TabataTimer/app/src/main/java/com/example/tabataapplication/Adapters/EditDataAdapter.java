@@ -34,8 +34,8 @@ public class EditDataAdapter extends RecyclerView.Adapter<EditViewHolder> {
         Phase phase = phases.get(position);
         holder.editImage.setImageDrawable(phase.getActionImage());
         holder.editDescription.setText(phase.getDescription());
-        holder.editTime.setText(phase.getTime());
-        holder.editActionName.setText(phase.getActionName().toString());
+        holder.editTime.setText(String.valueOf(phase.getTime()));
+        holder.editActionName.setText(phase.getActionName());
     }
 
     @Override

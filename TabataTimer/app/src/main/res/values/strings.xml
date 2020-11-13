@@ -17,4 +17,5 @@
     <string name="add_some_description">Add some description</string>
     <string name="increase">increase</string>
     <string name="decrease">decrease</string>
+    <string name="create">Create</string>
 </resources>
