@@ -18,4 +18,7 @@
     <string name="increase">increase</string>
     <string name="decrease">decrease</string>
     <string name="create">Create</string>
+    <string name="add_sets">add sets</string>
+    <string name="edit_title">edit title</string>
+    <string name="choose_colors">choose colors</string>
 </resources>

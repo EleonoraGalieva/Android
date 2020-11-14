@@ -7,9 +7,13 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toolbar;
 
 import com.example.tabataapplication.Adapters.EditDataAdapter;
 import com.example.tabataapplication.Adapters.SeqDataAdapter;
@@ -24,11 +28,27 @@ public class EditActivity extends AppCompatActivity {
     boolean isRotate = false;
     List<Phase> list = new ArrayList<>();
     private RecyclerView.LayoutManager layoutManager;
+    private Toolbar toolbar;
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if(item.getItemId() == R.id.addSets) {
+//
+//        }
+//        return true;
+//    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.settings_menu,menu);
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit);
+        setSupportActionBar(binding.toolbar);
 
         layoutManager = new LinearLayoutManager(this);
         binding.editList.setLayoutManager(layoutManager);
