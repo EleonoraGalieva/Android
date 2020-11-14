@@ -10,14 +10,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tabataapplication.ItemTouchHelper.ItemTouchHelperAdapter;
 import com.example.tabataapplication.R;
 
 import com.example.tabataapplication.Sequence;
 import com.example.tabataapplication.TimerActivity;
 
+import java.util.Collections;
 import java.util.List;
 
-public class SeqDataAdapter extends RecyclerView.Adapter<SeqViewHolder> {
+public class SeqDataAdapter extends RecyclerView.Adapter<SeqViewHolder>
+        implements ItemTouchHelperAdapter {
 
     private final LayoutInflater inflater;
     private final List<Sequence> sequences;
@@ -51,6 +54,27 @@ public class SeqDataAdapter extends RecyclerView.Adapter<SeqViewHolder> {
     @Override
     public int getItemCount() {
         return sequences.size();
+    }
+
+    @Override
+    public boolean onItemMove(int fromPosition, int toPosition) {
+        if (fromPosition < toPosition) {
+            for (int i = fromPosition; i < toPosition; i++) {
+                Collections.swap(sequences, i, i + 1);
+            }
+        } else {
+            for (int i = fromPosition; i > toPosition; i--) {
+                Collections.swap(sequences, i, i - 1);
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition);
+        return true;
+    }
+
+    @Override
+    public void onItemDismiss(int position) {
+        sequences.remove(position);
+        notifyItemRemoved(position);
     }
 }
 

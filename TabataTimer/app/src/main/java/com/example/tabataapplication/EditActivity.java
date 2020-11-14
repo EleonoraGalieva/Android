@@ -3,6 +3,7 @@ package com.example.tabataapplication;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingComponent;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.view.View;
 
 import com.example.tabataapplication.Adapters.EditDataAdapter;
 import com.example.tabataapplication.Adapters.SeqDataAdapter;
+import com.example.tabataapplication.ItemTouchHelper.SimpleItemTouchHelperCallback;
 import com.example.tabataapplication.databinding.ActivityEditBinding;
 
 import java.util.ArrayList;
@@ -32,6 +34,10 @@ public class EditActivity extends AppCompatActivity {
         binding.editList.setLayoutManager(layoutManager);
         final EditDataAdapter editDataAdapter = new EditDataAdapter(this, list);
         binding.editList.setAdapter(editDataAdapter);
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback(editDataAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(binding.editList);
 
         binding.fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override

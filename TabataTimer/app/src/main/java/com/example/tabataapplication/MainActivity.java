@@ -1,6 +1,7 @@
 package com.example.tabataapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.tabataapplication.Adapters.SeqDataAdapter;
+import com.example.tabataapplication.ItemTouchHelper.SimpleItemTouchHelperCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         SeqDataAdapter seqDataAdapter = new SeqDataAdapter(this, sequenceList);
         recyclerView.setAdapter(seqDataAdapter);
+        ItemTouchHelper.Callback callback =
+                new SimpleItemTouchHelperCallback(seqDataAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
 
         btnSeqAdd.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -7,6 +7,15 @@ public class Phase {
     private int time;
     private String description;
     private Drawable actionImage;
+    private int setsAmount;
+
+    public void setSetsAmount(int setsAmount) {
+        this.setsAmount = setsAmount;
+    }
+
+    public int getSetsAmount() {
+        return setsAmount;
+    }
 
     public Phase(Action actionName, int time, Drawable actionImage) {
         this.actionName = actionName;
@@ -27,7 +36,7 @@ public class Phase {
     }
 
     public void setTime(int time) {
-        this.time = time;
+        this.time = Math.max(time, 0);
     }
 
     public void setDescription(String description) {
