@@ -9,10 +9,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.tabataapplication.ItemTouchHelper.ItemTouchHelperAdapter;
-import com.example.tabataapplication.Phase;
+import com.example.tabataapplication.Models.Phase;
 import com.example.tabataapplication.R;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 

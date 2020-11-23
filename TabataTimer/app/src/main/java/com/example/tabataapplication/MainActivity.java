@@ -12,7 +12,9 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.tabataapplication.Adapters.SeqDataAdapter;
+import com.example.tabataapplication.DatabaseHelper.DatabaseAdapter;
 import com.example.tabataapplication.ItemTouchHelper.SimpleItemTouchHelperCallback;
+import com.example.tabataapplication.Models.Sequence;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
     private Button btnSeqAdd;
+    DatabaseAdapter databaseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,10 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.seqList);
         btnSeqAdd = findViewById(R.id.btnSeqAdd);
-        setInitialData();
+
+        databaseAdapter = new DatabaseAdapter(MainActivity.this);
+        databaseAdapter.open();
+        sequenceList = databaseAdapter.getSequences();
 
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
@@ -45,14 +51,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                String basicSequenceTitle = "Sequence " + String.valueOf(databaseAdapter.getCountSequence() + 1);
+                long idSeq = databaseAdapter.insertSequence(new Sequence(basicSequenceTitle, Color.WHITE));
+                intent.putExtra("idSeq", idSeq);
+                databaseAdapter.close();
+                finish();
                 startActivity(intent);
             }
         });
-    }
-
-    private void setInitialData() {
-        sequenceList.add(new Sequence("Training 1", Color.RED));
-        sequenceList.add(new Sequence("Training 2", Color.BLUE));
-        sequenceList.add(new Sequence("Training 3", Color.YELLOW));
     }
 }

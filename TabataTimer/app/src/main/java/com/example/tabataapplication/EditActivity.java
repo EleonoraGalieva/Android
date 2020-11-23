@@ -1,23 +1,21 @@
 package com.example.tabataapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.databinding.DataBindingComponent;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toolbar;
+import android.widget.Button;
 
 import com.example.tabataapplication.Adapters.EditDataAdapter;
-import com.example.tabataapplication.Adapters.SeqDataAdapter;
+import com.example.tabataapplication.DatabaseHelper.DatabaseAdapter;
 import com.example.tabataapplication.ItemTouchHelper.SimpleItemTouchHelperCallback;
+import com.example.tabataapplication.Models.Phase;
 import com.example.tabataapplication.databinding.ActivityEditBinding;
 
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class EditActivity extends AppCompatActivity {
     boolean isRotate = false;
     List<Phase> list = new ArrayList<>();
     private RecyclerView.LayoutManager layoutManager;
-    private Toolbar toolbar;
+    DatabaseAdapter databaseAdapter;
 
 //    @Override
 //    public boolean onOptionsItemSelected(MenuItem item) {
@@ -40,7 +38,7 @@ public class EditActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.settings_menu,menu);
+        getMenuInflater().inflate(R.menu.settings_menu, menu);
         return true;
     }
 
@@ -49,6 +47,12 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_edit);
         setSupportActionBar(binding.toolbar);
+
+        Intent intent = getIntent();
+        final long idSeq = intent.getLongExtra("idSeq", 1);
+        databaseAdapter = new DatabaseAdapter(EditActivity.this);
+        databaseAdapter.open();
+        list = databaseAdapter.getPhasesOfSequence(idSeq);
 
         layoutManager = new LinearLayoutManager(this);
         binding.editList.setLayoutManager(layoutManager);
@@ -68,33 +72,37 @@ public class EditActivity extends AppCompatActivity {
         binding.fabPrep.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.add(new Phase(Action.PREPARATION, 10, getResources().getDrawable(R.drawable.ic_preparation_color)));
-                editDataAdapter.notifyDataSetChanged();
+                databaseAdapter.insertPhase(new Phase((int) idSeq, Action.PREPARATION, 5, "", 1));
+                finish();
+                startActivity(getIntent());
                 animation(v);
             }
         });
         binding.fabWork.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.add(new Phase(Action.WORK, 20, getResources().getDrawable(R.drawable.ic_work_color)));
-                editDataAdapter.notifyDataSetChanged();
+                databaseAdapter.insertPhase(new Phase((int) idSeq, Action.WORK, 10, "", 1));
                 animation(v);
+                finish();
+                startActivity(getIntent());
             }
         });
         binding.fabRelax.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.add(new Phase(Action.RELAX, 5, getResources().getDrawable(R.drawable.ic_relax_color)));
-                editDataAdapter.notifyDataSetChanged();
+                databaseAdapter.insertPhase(new Phase((int) idSeq, Action.RELAX, 3, "", 1));
                 animation(v);
+                finish();
+                startActivity(getIntent());
             }
         });
         binding.fabRelaxBetweenSets.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.add(new Phase(Action.RELAX_BETWEEN_SETS, 2, getResources().getDrawable(R.drawable.ic_relax_between_sets_color)));
-                editDataAdapter.notifyDataSetChanged();
+                databaseAdapter.insertPhase(new Phase((int) idSeq, Action.RELAX_BETWEEN_SETS, 2, "", 1));
                 animation(v);
+                finish();
+                startActivity(getIntent());
             }
         });
 

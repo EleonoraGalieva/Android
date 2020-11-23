@@ -2,6 +2,7 @@ package com.example.tabataapplication.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,10 +11,12 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tabataapplication.DatabaseHelper.DatabaseAdapter;
+import com.example.tabataapplication.EditActivity;
 import com.example.tabataapplication.ItemTouchHelper.ItemTouchHelperAdapter;
 import com.example.tabataapplication.R;
 
-import com.example.tabataapplication.Sequence;
+import com.example.tabataapplication.Models.Sequence;
 import com.example.tabataapplication.TimerActivity;
 
 import java.util.Collections;
@@ -24,10 +27,12 @@ public class SeqDataAdapter extends RecyclerView.Adapter<SeqViewHolder>
 
     private final LayoutInflater inflater;
     private final List<Sequence> sequences;
+    private final Context context;
 
     public SeqDataAdapter(Context context, List<Sequence> sequences) {
         this.inflater = LayoutInflater.from(context);
         this.sequences = sequences;
+        this.context = context;
     }
 
     @NonNull
@@ -39,7 +44,7 @@ public class SeqDataAdapter extends RecyclerView.Adapter<SeqViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull SeqViewHolder holder, int position) {
-        Sequence sequence = sequences.get(position);
+        final Sequence sequence = sequences.get(position);
         holder.seqTitle.setText(sequence.getTitle());
         holder.seqItemLayout.setBackgroundColor(sequence.getColour());
         holder.seqItemLayout.setOnClickListener(new View.OnClickListener() {
