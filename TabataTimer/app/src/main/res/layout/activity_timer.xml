@@ -19,25 +19,6 @@
         app:srcCompat="@drawable/ic_pause" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|start"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/start"
-        app:srcCompat="@drawable/ic_start" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabStop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        android:layout_margin="16dp"
-        android:contentDescription="@string/stop"
-        app:srcCompat="@drawable/ic_stop" />
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabPrev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

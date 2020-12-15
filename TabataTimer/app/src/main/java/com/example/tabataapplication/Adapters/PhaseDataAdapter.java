@@ -17,7 +17,7 @@ public class PhaseDataAdapter extends RecyclerView.Adapter<PhaseViewHolder> {
     private final LayoutInflater inflater;
     private final List<Phase> phases;
 
-    PhaseDataAdapter(Context context, List<Phase> phases) {
+    public PhaseDataAdapter(Context context, List<Phase> phases) {
         this.inflater = LayoutInflater.from(context);
         this.phases = phases;
     }
@@ -33,7 +33,7 @@ public class PhaseDataAdapter extends RecyclerView.Adapter<PhaseViewHolder> {
     public void onBindViewHolder(@NonNull PhaseViewHolder holder, int position) {
         Phase phase = phases.get(position);
         holder.actionDescription.setText(phase.getDescription());
-        holder.time.setText(phase.getTime());
+        holder.time.setText(String.valueOf(phase.getTime()));
         holder.actionName.setText(phase.getActionName().toString());
         holder.actionImage.setImageDrawable(phase.getActionImage());
     }

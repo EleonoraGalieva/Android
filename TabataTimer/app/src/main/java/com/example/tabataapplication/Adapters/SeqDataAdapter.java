@@ -51,6 +51,7 @@ public class SeqDataAdapter extends RecyclerView.Adapter<SeqViewHolder>
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(inflater.getContext(), TimerActivity.class);
+                intent.putExtra("sequenceName", sequence.getTitle());
                 inflater.getContext().startActivity(intent);
             }
         });
