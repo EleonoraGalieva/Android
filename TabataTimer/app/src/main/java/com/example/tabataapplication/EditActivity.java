@@ -63,6 +63,15 @@ public class EditActivity extends AppCompatActivity {
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(binding.editList);
 
+        binding.create.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(EditActivity.this, MainActivity.class);
+                databaseAdapter.close();
+                startActivity(intent);
+            }
+        });
+
         binding.fabCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -105,7 +114,6 @@ public class EditActivity extends AppCompatActivity {
                 startActivity(getIntent());
             }
         });
-
         ViewAnimation.init(binding.fabPrep);
         ViewAnimation.init(binding.fabWork);
         ViewAnimation.init(binding.fabRelax);

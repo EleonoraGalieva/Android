@@ -164,6 +164,19 @@ public class DatabaseAdapter {
         return sequence;
     }
 
+    public Sequence getSequence(String title) {
+        Sequence sequence = null;
+        String query = String.format("SELECT * FROM %s WHERE %s=?", DatabaseHelper.SEQUENCE_TABLE, DatabaseHelper.TITLE);
+        Cursor cursor = database.rawQuery(query, new String[]{String.valueOf(title)});
+        if (cursor.moveToFirst()) {
+            int id = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.SEQUENCE_ID));
+            int colour = cursor.getInt(cursor.getColumnIndex(DatabaseHelper.COLOUR));
+            sequence = new Sequence(id, title, colour);
+        }
+        cursor.close();
+        return sequence;
+    }
+
     public Phase getPhase(int id) {
         Phase phase = null;
         String query = String.format("SELECT * FROM %s WHERE %s=?", DatabaseHelper.PHASES_TABLE, DatabaseHelper.PHASE_ID);
