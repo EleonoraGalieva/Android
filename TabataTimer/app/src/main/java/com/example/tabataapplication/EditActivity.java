@@ -157,7 +157,7 @@ public class EditActivity extends AppCompatActivity {
             dialog(MenuAction.SETS);
         } else if (item.getItemId() == R.id.editTitle) {
             dialog(MenuAction.TITLE);
-        } else if (item.getItemId()==R.id.chooseColor){
+        } else if (item.getItemId() == R.id.chooseColor) {
             openColourPicker();
         }
         return true;
@@ -198,6 +198,7 @@ public class EditActivity extends AppCompatActivity {
                                     }
                                 });
             }
+            break;
             case TITLE: {
                 userInput.setText(String.valueOf(currentSequence.getTitle()));
                 textView.setText(R.string.enter_new_sequence_title);
@@ -219,12 +220,13 @@ public class EditActivity extends AppCompatActivity {
                                     }
                                 });
             }
+            break;
         }
         AlertDialog alertDialog = mDialogBuilder.create();
         alertDialog.show();
     }
 
-    public void openColourPicker(){
+    public void openColourPicker() {
         int prevColour = currentSequence.getColour();
         AmbilWarnaDialog colourPicker = new AmbilWarnaDialog(this, prevColour, new AmbilWarnaDialog.OnAmbilWarnaListener() {
             @Override

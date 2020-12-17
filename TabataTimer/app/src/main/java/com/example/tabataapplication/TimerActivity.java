@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.example.tabataapplication.Models.Phase;
 import com.example.tabataapplication.Models.Sequence;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +39,7 @@ public class TimerActivity extends AppCompatActivity {
     private static final long COEF_FROM_MINUTES_TO_MILLISECONDS = 60000;
     private boolean isTimerRunning;
     private int currentPhaseIndex = 0;
+    private MediaPlayer mediaPlayer;
 
     public TimerActivity() {
     }
@@ -49,6 +52,7 @@ public class TimerActivity extends AppCompatActivity {
         fabPause = findViewById(R.id.fabPause);
         fabPrev = findViewById(R.id.fabPrev);
         fabNext = findViewById(R.id.fabNext);
+        mediaPlayer = MediaPlayer.create(TimerActivity.this, R.raw.signal);
 
         Intent intent = getIntent();
         int seqId = intent.getIntExtra("idSeq", 1);
@@ -100,13 +104,19 @@ public class TimerActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                setsAmount--;
-                while(setsAmount!=0) {
-                    currentPhaseIndex++;
-                    currentPhase = phases.get(currentPhaseIndex);
-                    timeLeftInMilliseconds = currentPhase.getTime() * COEF_FROM_MINUTES_TO_MILLISECONDS;
-                    startTimer();
+                currentPhaseIndex++;
+                if (currentPhaseIndex == phases.size()) {
+                    setsAmount--;
+                    if (setsAmount == 0) {
+                        stopTimer();
+                        Intent intent = new Intent(TimerActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                    currentPhaseIndex = 0;
                 }
+                currentPhase = phases.get(currentPhaseIndex);
+                timeLeftInMilliseconds = currentPhase.getTime() * COEF_FROM_MINUTES_TO_MILLISECONDS;
+                startTimer();
             }
         }.start();
 
@@ -121,7 +131,9 @@ public class TimerActivity extends AppCompatActivity {
 
         timerLeftText = "" + minutes;
         timerLeftText += ":";
-
+        if (seconds == 10) {
+            mediaPlayer.start();
+        }
         if (seconds < 10) {
             timerLeftText += "0";
         }
@@ -162,5 +174,11 @@ public class TimerActivity extends AppCompatActivity {
             timeLeftInMilliseconds = currentPhase.getTime() * COEF_FROM_MINUTES_TO_MILLISECONDS;
             startTimer();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        stopTimer();
     }
 }

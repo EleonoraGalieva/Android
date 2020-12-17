@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
                 String basicSequenceTitle = "Sequence " + String.valueOf(databaseAdapter.getCountSequence() + 1);
-                long idSeq = databaseAdapter.insertSequence(new Sequence(basicSequenceTitle, Color.WHITE,1));
+                int idSeq = (int) databaseAdapter.insertSequence(new Sequence(basicSequenceTitle, Color.WHITE, 1));
                 intent.putExtra("idSeq", idSeq);
                 databaseAdapter.close();
                 finish();
