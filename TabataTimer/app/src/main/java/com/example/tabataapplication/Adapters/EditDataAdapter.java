@@ -1,6 +1,9 @@
 package com.example.tabataapplication.Adapters;
 
 import android.content.Context;
+import android.provider.ContactsContract;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,7 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.tabataapplication.DatabaseHelper.DatabaseAdapter;
 import com.example.tabataapplication.ItemTouchHelper.ItemTouchHelperAdapter;
 import com.example.tabataapplication.Models.Phase;
 import com.example.tabataapplication.R;
@@ -19,10 +23,13 @@ public class EditDataAdapter extends RecyclerView.Adapter<EditViewHolder>
         implements ItemTouchHelperAdapter {
     private final LayoutInflater inflater;
     private final List<Phase> phases;
+    private final DatabaseAdapter databaseAdapter;
 
     public EditDataAdapter(Context context, List<Phase> phases) {
         this.inflater = LayoutInflater.from(context);
         this.phases = phases;
+        databaseAdapter = new DatabaseAdapter(context);
+        databaseAdapter.open();
     }
 
     @NonNull
@@ -44,6 +51,7 @@ public class EditDataAdapter extends RecyclerView.Adapter<EditViewHolder>
             @Override
             public void onClick(View v) {
                 phase.setTime(phase.getTime() + 1);
+                databaseAdapter.updatePhase(phase);
                 holder.editTime.setText(String.valueOf(phase.getTime()));
             }
         });
@@ -51,6 +59,7 @@ public class EditDataAdapter extends RecyclerView.Adapter<EditViewHolder>
             @Override
             public void onClick(View v) {
                 phase.setTime(phase.getTime() - 1);
+                databaseAdapter.updatePhase(phase);
                 holder.editTime.setText(String.valueOf(phase.getTime()));
             }
         });
@@ -78,7 +87,9 @@ public class EditDataAdapter extends RecyclerView.Adapter<EditViewHolder>
 
     @Override
     public void onItemDismiss(int position) {
+        final Phase phase = phases.get(position);
         phases.remove(position);
+        databaseAdapter.deletePhase(phase.getId());
         notifyItemRemoved(position);
     }
 }

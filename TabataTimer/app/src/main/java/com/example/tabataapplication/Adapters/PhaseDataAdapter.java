@@ -1,6 +1,9 @@
 package com.example.tabataapplication.Adapters;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +33,28 @@ public class PhaseDataAdapter extends RecyclerView.Adapter<PhaseViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PhaseViewHolder holder, int position) {
-        Phase phase = phases.get(position);
+    public void onBindViewHolder(@NonNull final PhaseViewHolder holder, int position) {
+        final Phase phase = phases.get(position);
         holder.actionDescription.setText(phase.getDescription());
         holder.time.setText(String.valueOf(phase.getTime()));
-        holder.actionName.setText(phase.getActionName().toString());
+        holder.actionName.setText(phase.getActionName());
         holder.actionImage.setImageDrawable(phase.getActionImage());
+        holder.actionDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                phase.setDescription(s.toString());
+            }
+        });
     }
 
     @Override

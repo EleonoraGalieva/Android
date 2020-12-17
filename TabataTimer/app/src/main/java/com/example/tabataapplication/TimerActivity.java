@@ -25,6 +25,7 @@ public class TimerActivity extends AppCompatActivity {
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
     private Sequence currentSequence;
+    private int setsAmount;
     private List<Phase> phases = new ArrayList<>();
     private TextView textViewCountdown;
     private FloatingActionButton fabPause;
@@ -50,10 +51,11 @@ public class TimerActivity extends AppCompatActivity {
         fabNext = findViewById(R.id.fabNext);
 
         Intent intent = getIntent();
-        String seqName = intent.getStringExtra("sequenceName");
+        int seqId = intent.getIntExtra("idSeq", 1);
         databaseAdapter = new DatabaseAdapter(TimerActivity.this);
         databaseAdapter.open();
-        currentSequence = databaseAdapter.getSequence(seqName);
+        currentSequence = databaseAdapter.getSequence(seqId);
+        setsAmount = currentSequence.getSetsAmount();
         phases = databaseAdapter.getPhasesOfSequence(currentSequence.getId());
         currentPhase = phases.get(currentPhaseIndex);
         timeLeftInMilliseconds = currentPhase.getTime() * COEF_FROM_MINUTES_TO_MILLISECONDS;
@@ -98,10 +100,13 @@ public class TimerActivity extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                currentPhaseIndex++;
-                currentPhase = phases.get(currentPhaseIndex);
-                timeLeftInMilliseconds = currentPhase.getTime() * COEF_FROM_MINUTES_TO_MILLISECONDS;
-                startTimer();
+                setsAmount--;
+                while(setsAmount!=0) {
+                    currentPhaseIndex++;
+                    currentPhase = phases.get(currentPhaseIndex);
+                    timeLeftInMilliseconds = currentPhase.getTime() * COEF_FROM_MINUTES_TO_MILLISECONDS;
+                    startTimer();
+                }
             }
         }.start();
 

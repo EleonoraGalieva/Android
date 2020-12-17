@@ -21,4 +21,8 @@
     <string name="add_sets">add sets</string>
     <string name="edit_title">edit title</string>
     <string name="choose_colors">choose colors</string>
+    <string name="edit">edit</string>
+    <string name="save">save</string>
+    <string name="enter_amount_of_sets">Enter amount of sets:</string>
+    <string name="enter_new_sequence_title">Enter new sequence title:</string>
 </resources>
