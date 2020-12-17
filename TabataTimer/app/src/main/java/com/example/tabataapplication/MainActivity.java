@@ -1,5 +1,6 @@
 package com.example.tabataapplication;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     List<Sequence> sequenceList = new ArrayList<>();
     private RecyclerView.LayoutManager layoutManager;
     private RecyclerView recyclerView;
-    private Button btnSeqAdd;
+    private Button btnSeqAdd, btnSettings;
     DatabaseAdapter databaseAdapter;
 
     @Override
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.seqList);
         btnSeqAdd = findViewById(R.id.btnSeqAdd);
+        btnSettings = findViewById(R.id.btnSettings);
 
         databaseAdapter = new DatabaseAdapter(MainActivity.this);
         databaseAdapter.open();
@@ -47,17 +49,25 @@ public class MainActivity extends AppCompatActivity {
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
 
-        btnSeqAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
-                String basicSequenceTitle = "Sequence " + String.valueOf(databaseAdapter.getCountSequence() + 1);
-                int idSeq = (int) databaseAdapter.insertSequence(new Sequence(basicSequenceTitle, Color.WHITE, 1));
-                intent.putExtra("idSeq", idSeq);
-                databaseAdapter.close();
-                finish();
-                startActivity(intent);
-            }
+        btnSeqAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, EditActivity.class);
+            String basicSequenceTitle = "Sequence " + String.valueOf(databaseAdapter.getCountSequence() + 1);
+            int idSeq = (int) databaseAdapter.insertSequence(new Sequence(basicSequenceTitle, Color.WHITE, 1));
+            intent.putExtra("idSeq", idSeq);
+            databaseAdapter.close();
+            finish();
+            startActivity(intent);
         });
+
+        btnSettings.setOnClickListener(v -> {
+            Intent intent= new Intent(v.getContext(), SettingsActivity.class);
+            startActivityForResult(intent, 1);
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        recreate();
     }
 }

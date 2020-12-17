@@ -176,9 +176,4 @@ public class TimerActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        stopTimer();
-    }
 }
