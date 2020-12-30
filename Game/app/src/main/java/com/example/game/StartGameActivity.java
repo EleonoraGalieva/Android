@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.provider.ContactsContract;
 import android.text.InputType;
 import android.view.LayoutInflater;
@@ -41,8 +42,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class StartGameActivity extends AppCompatActivity {
-    private enum Role {PLAYER1, PLAYER2}
-
     private Toolbar toolbar;
     private EditText roomNameInput;
     private ProgressBar progressBar;
@@ -106,19 +105,24 @@ public class StartGameActivity extends AppCompatActivity {
 
     private void startGame() {
         databaseReference = FirebaseDatabase.getInstance().getReference("rooms").child(selectedRoom.getId());
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Room updatedRoom = snapshot.getValue(Room.class);
                 if (updatedRoom == null)
                     return;
-                Intent intent = new Intent(StartGameActivity.this, GameActivity.class);
-                if (currentUser.getUid().equals(updatedRoom.getPlayer1()))
-                    intent.putExtra("role", Role.PLAYER1);
-                else
-                    intent.putExtra("role", Role.PLAYER2);
-                startActivity(intent);
+                if (updatedRoom.getGame2().getWord() != null && updatedRoom.getGame1().getWord() != null) {
+                    Intent intent = new Intent(StartGameActivity.this, GameActivity.class);
+                    if (currentUser.getUid().equals(updatedRoom.getPlayer1())) {
+                        intent.putExtra("role", Role.PLAYER1);
+                        intent.putExtra("word", updatedRoom.getGame1().getWord());
+                    } else {
+                        intent.putExtra("role", Role.PLAYER2);
+                        intent.putExtra("word", updatedRoom.getGame2().getWord());
+                    }
+                    intent.putExtra("roomId", selectedRoom.getId());
+                    startActivity(intent);
+                }
             }
 
             @Override
@@ -224,8 +228,8 @@ public class StartGameActivity extends AppCompatActivity {
         hashMap.put("player1", firebaseUser.getUid());
         hashMap.put("player2", selectedUser.getId());
         hashMap.put("roomName", roomName);
-        hashMap.put("game1", new Game());
-        hashMap.put("game2", new Game());
+        hashMap.put("game1", new Game(Game.State.WAITING));
+        hashMap.put("game2", new Game(Game.State.WAITING));
         databaseReference.setValue(hashMap);
     }
 
@@ -245,14 +249,14 @@ public class StartGameActivity extends AppCompatActivity {
                         (dialog, id) -> {
                             if (userInput.getText() == null) {
                                 Toast.makeText(getApplicationContext(), "Please, input a word", Toast.LENGTH_SHORT).show();
-                                dialog.cancel();
+                                // dialog.cancel();
                                 return;
                             }
                             databaseReference = FirebaseDatabase.getInstance().getReference("rooms").child(selectedRoom.getId());
                             if (currentUser.getUid().equals(selectedRoom.getPlayer1())) {
-                                databaseReference.child("game1").child("word").setValue(userInput.getText().toString());
-                            } else {
                                 databaseReference.child("game2").child("word").setValue(userInput.getText().toString());
+                            } else {
+                                databaseReference.child("game1").child("word").setValue(userInput.getText().toString());
                             }
                             startGame();
                             dialog.cancel();

@@ -52,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/a" />
 
@@ -61,6 +62,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/b" />
 
@@ -70,6 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/c" />
 
@@ -79,6 +82,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/d" />
 
@@ -88,6 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/e" />
 
@@ -97,6 +102,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/f" />
 
@@ -106,6 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/g" />
 
@@ -115,6 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/h" />
 
@@ -124,6 +132,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/i" />
         </LinearLayout>
@@ -141,6 +150,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/j" />
 
@@ -150,6 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/k" />
 
@@ -159,6 +170,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/l" />
 
@@ -168,6 +180,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/m" />
 
@@ -177,6 +190,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/n" />
 
@@ -186,6 +200,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/o" />
 
@@ -195,6 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/p" />
 
@@ -204,6 +220,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/q" />
 
@@ -213,6 +230,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/r" />
         </LinearLayout>
@@ -230,6 +248,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/s" />
 
@@ -239,6 +258,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/t" />
 
@@ -248,6 +268,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/u" />
 
@@ -257,6 +278,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/v" />
 
@@ -266,6 +288,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/w" />
 
@@ -275,6 +298,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/x" />
 
@@ -283,6 +307,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/y" />
 
@@ -292,6 +317,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="2dp"
                 android:layout_marginRight="2dp"
+                android:background="@drawable/clickable"
                 android:onClick="onLetterTouched"
                 android:text="@string/z" />
         </LinearLayout>
