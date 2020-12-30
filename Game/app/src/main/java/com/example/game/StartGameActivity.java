@@ -1,12 +1,9 @@
 package com.example.game;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.provider.ContactsContract;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -54,11 +51,12 @@ public class StartGameActivity extends AppCompatActivity {
     private RoomsDataAdapter roomsDataAdapter;
 
     private DatabaseReference databaseReference;
-    private FirebaseUser currentUser;
+    private FirebaseUser currentUserFirebase;
     private List<User> users = new ArrayList<>();
     private List<Room> rooms = new ArrayList<>();
     String specialKey;
     private User selectedUser;
+    private User currentUser;
     private Room selectedRoom;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -72,7 +70,7 @@ public class StartGameActivity extends AppCompatActivity {
         recyclerViewUsers = findViewById(R.id.usersList);
         recyclerViewRooms = findViewById(R.id.roomsList);
 
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        currentUserFirebase = FirebaseAuth.getInstance().getCurrentUser();
         readUsers();
         readRooms();
 
@@ -113,7 +111,7 @@ public class StartGameActivity extends AppCompatActivity {
                     return;
                 if (updatedRoom.getGame2().getWord() != null && updatedRoom.getGame1().getWord() != null) {
                     Intent intent = new Intent(StartGameActivity.this, GameActivity.class);
-                    if (currentUser.getUid().equals(updatedRoom.getPlayer1())) {
+                    if (currentUserFirebase.getUid().equals(updatedRoom.getPlayer1())) {
                         intent.putExtra("role", Role.PLAYER1);
                         intent.putExtra("word", updatedRoom.getGame1().getWord());
                     } else {
@@ -141,9 +139,9 @@ public class StartGameActivity extends AppCompatActivity {
                 rooms.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Room room = dataSnapshot.getValue(Room.class);
-                    assert currentUser != null;
+                    assert currentUserFirebase != null;
                     assert room != null;
-                    if (room.getPlayer1().equals(currentUser.getUid()) || room.getPlayer2().equals(currentUser.getUid())) {
+                    if (room.getPlayer1().equals(currentUserFirebase.getUid()) || room.getPlayer2().equals(currentUserFirebase.getUid())) {
                         rooms.add(room);
                     }
                 }
@@ -169,9 +167,11 @@ public class StartGameActivity extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     User user = dataSnapshot.getValue(User.class);
                     assert user != null;
-                    assert currentUser != null;
-                    if (!user.getId().equals(currentUser.getUid())) {
+                    assert currentUserFirebase != null;
+                    if (!user.getId().equals(currentUserFirebase.getUid())) {
                         users.add(user);
+                    } else {
+                        currentUser = user;
                     }
                 }
                 usersDataAdapter.notifyDataSetChanged();
@@ -200,6 +200,11 @@ public class StartGameActivity extends AppCompatActivity {
             finish();
         } else if (id == R.id.settings) {
             startActivity(new Intent(getApplicationContext(), ProfileSettings.class));
+        } else if (id == R.id.stats) {
+            Intent intent = new Intent(getApplicationContext(), Statistic.class);
+            intent.putExtra("userLosses", currentUser.getLosses());
+            intent.putExtra("userWinnings", currentUser.getWinnings());
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
@@ -253,7 +258,7 @@ public class StartGameActivity extends AppCompatActivity {
                                 return;
                             }
                             databaseReference = FirebaseDatabase.getInstance().getReference("rooms").child(selectedRoom.getId());
-                            if (currentUser.getUid().equals(selectedRoom.getPlayer1())) {
+                            if (currentUserFirebase.getUid().equals(selectedRoom.getPlayer1())) {
                                 databaseReference.child("game2").child("word").setValue(userInput.getText().toString());
                             } else {
                                 databaseReference.child("game1").child("word").setValue(userInput.getText().toString());

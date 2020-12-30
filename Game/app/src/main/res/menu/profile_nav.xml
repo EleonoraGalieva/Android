@@ -12,10 +12,16 @@
         app:showAsAction="always" />
 
     <item
+        android:id="@+id/stats"
+        android:icon="@drawable/ic_equalizer"
+        android:orderInCategory="300"
+        android:title="@string/stats"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_logout"
         android:orderInCategory="300"
         android:title="@string/logout"
-        app:showAsAction="always"
-        />
+        app:showAsAction="always" />
 
 </menu>
