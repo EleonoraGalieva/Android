@@ -78,6 +78,7 @@ public class RegisterActivity extends AppCompatActivity {
                     hashMap.put("id", userId);
                     hashMap.put("username", username);
                     hashMap.put("imageURL", "default");
+                    hashMap.put("gravatar", false);
                     hashMap.put("winnings", 0);
                     hashMap.put("losses", 0);
                     databaseReference.setValue(hashMap);

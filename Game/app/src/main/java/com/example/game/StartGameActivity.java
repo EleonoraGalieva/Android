@@ -35,6 +35,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +66,8 @@ public class StartGameActivity extends AppCompatActivity {
     private User currentUser;
     private Room selectedRoom;
 
+    private static final String gravatarURL = "https://s.gravatar.com/avatar/";
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +78,7 @@ public class StartGameActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.getUsersProgressBar);
         recyclerViewUsers = findViewById(R.id.usersList);
         recyclerViewRooms = findViewById(R.id.roomsList);
-        profileImage=findViewById(R.id.profileImage);
+        profileImage = findViewById(R.id.profileImage);
 
         currentUserFirebase = FirebaseAuth.getInstance().getCurrentUser();
         readUsers();
@@ -177,10 +182,18 @@ public class StartGameActivity extends AppCompatActivity {
                         users.add(user);
                     } else {
                         currentUser = user;
-                        if(currentUser.getImageURL().equals("default")){
-                            profileImage.setImageResource(R.mipmap.ic_launcher);
+                        if (currentUser.isGravatar()) {
+                            String hash = makeHash(currentUserFirebase.getEmail());
+                            String tempURL = gravatarURL + hash + "?s=80";
+                            Glide.with(StartGameActivity.this)
+                                    .load(tempURL)
+                                    .into(profileImage);
                         } else {
-                            Glide.with(StartGameActivity.this).load(currentUser.getImageURL()).into(profileImage);
+                            if (currentUser.getImageURL().equals("default")) {
+                                profileImage.setImageResource(R.mipmap.ic_launcher);
+                            } else {
+                                Glide.with(StartGameActivity.this).load(currentUser.getImageURL()).into(profileImage);
+                            }
                         }
                     }
                 }
@@ -193,6 +206,23 @@ public class StartGameActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private String makeHash(String email) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            return hex(md.digest(email.getBytes("CP1252")));
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
+    private String hex(byte[] array) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (byte b : array) {
+            stringBuilder.append(Integer.toHexString((b & 0xFF) | 0x100).substring(1, 3));
+        }
+        return stringBuilder.toString();
     }
 
     @Override
@@ -280,5 +310,4 @@ public class StartGameActivity extends AppCompatActivity {
         AlertDialog alertDialog = mDialogBuilder.create();
         alertDialog.show();
     }
-
 }

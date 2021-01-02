@@ -13,6 +13,8 @@ import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -31,7 +33,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -41,14 +47,19 @@ public class ProfileSettings extends AppCompatActivity {
     CircleImageView profilePicture;
     EditText changeUsername;
     Button save;
+    ProgressBar progressBar;
+    Switch gravatarSwitch;
 
     DatabaseReference databaseReference;
-    FirebaseUser currentUser;
+    FirebaseUser currentFirebaseUser;
+    User currentUser;
 
     StorageReference storageReference;
     private static final int IMAGE_REQUEST = 1;
     private Uri imageUri;
     private StorageTask uploadTask;
+
+    private static final String gravatarURL = "https://s.gravatar.com/avatar/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,22 +69,27 @@ public class ProfileSettings extends AppCompatActivity {
         profilePicture = findViewById(R.id.profilePicture);
         changeUsername = findViewById(R.id.changeUsername);
         save = findViewById(R.id.save);
+        progressBar = findViewById(R.id.settingsProgressBar);
+        gravatarSwitch = findViewById(R.id.gravatar);
 
         storageReference = FirebaseStorage.getInstance().getReference("uploads");
 
-        currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(currentUser.getUid());
-
+        currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(currentFirebaseUser.getUid());
+        progressBar.setVisibility(View.VISIBLE);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                User user = dataSnapshot.getValue(User.class);
-                changeUsername.setHint(user.getUsername());
-                if (user.getImageURL().equals("default")) {
-                    profilePicture.setImageResource(R.mipmap.ic_launcher);
+                currentUser = dataSnapshot.getValue(User.class);
+                changeUsername.setHint(currentUser.getUsername());
+                if (currentUser.isGravatar()) {
+                    gravatarSwitch.setChecked(true);
+                    uploadFromGravatar();
                 } else {
-                    Glide.with(ProfileSettings.this).load(user.getImageURL()).into(profilePicture);
+                    gravatarSwitch.setChecked(false);
+                    uploadFromFile();
                 }
+                progressBar.setVisibility(View.GONE);
             }
 
             @Override
@@ -85,17 +101,62 @@ public class ProfileSettings extends AppCompatActivity {
         profilePicture.setOnClickListener(view -> openImage());
     }
 
-    public void save(View view) {
-        if (changeUsername.getText().toString().isEmpty()) {
-            Toast.makeText(ProfileSettings.this, "Username can't be empty!", Toast.LENGTH_LONG).show();
+    public void onSwitchClicked(View view) {
+        boolean checked = ((Switch) view).isChecked();
+        databaseReference = FirebaseDatabase.getInstance().getReference("users").child(currentFirebaseUser.getUid()).child("gravatar");
+        if (checked) {
+            uploadFromGravatar();
+            databaseReference.setValue(true);
         } else {
-            databaseReference = FirebaseDatabase.getInstance().getReference("users").child(currentUser.getUid()).child("username");
-            databaseReference.setValue(changeUsername.getText().toString());
-            Toast.makeText(ProfileSettings.this, "Changes saved!", Toast.LENGTH_LONG).show();
+            uploadFromFile();
+            databaseReference.setValue(false);
         }
     }
 
+    public void uploadFromGravatar() {
+        String hash = makeHash(currentFirebaseUser.getEmail());
+        String tempURL = gravatarURL + hash + "?s=96";
+        Picasso.with(ProfileSettings.this)
+                .load(tempURL)
+                .into(profilePicture);
+    }
+
+    public void uploadFromFile() {
+        if (currentUser.getImageURL().equals("default")) {
+            profilePicture.setImageResource(R.mipmap.ic_launcher);
+        } else {
+            Glide.with(getApplicationContext()).load(currentUser.getImageURL()).into(profilePicture);
+        }
+    }
+
+    private String makeHash(String email) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            return hex(md.digest(email.getBytes("CP1252")));
+        } catch (Exception ignored) {
+        }
+        return null;
+    }
+
+    private String hex(byte[] array) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (byte b : array) {
+            stringBuilder.append(Integer.toHexString((b & 0xFF) | 0x100).substring(1, 3));
+        }
+        return stringBuilder.toString();
+    }
+
+    public void save(View view) {
+        if (!changeUsername.getText().toString().isEmpty()) {
+            databaseReference = FirebaseDatabase.getInstance().getReference("users").child(currentFirebaseUser.getUid()).child("username");
+            databaseReference.setValue(changeUsername.getText().toString());
+        }
+        Toast.makeText(ProfileSettings.this, "Changes saved!", Toast.LENGTH_LONG).show();
+    }
+
     private void openImage() {
+        if (currentUser.isGravatar())
+            return;
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
@@ -129,7 +190,7 @@ public class ProfileSettings extends AppCompatActivity {
                     Uri downloadUri = task.getResult();
                     String mUri = downloadUri.toString();
 
-                    databaseReference = FirebaseDatabase.getInstance().getReference("users").child(currentUser.getUid());
+                    databaseReference = FirebaseDatabase.getInstance().getReference("users").child(currentFirebaseUser.getUid());
                     HashMap<String, Object> map = new HashMap<>();
                     map.put("imageURL", mUri);
                     databaseReference.updateChildren(map);

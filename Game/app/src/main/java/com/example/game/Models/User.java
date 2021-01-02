@@ -6,16 +6,18 @@ public class User {
     private int winnings;
     private int losses;
     private String imageURL;
+    private boolean gravatar;
 
     public User() {
     }
 
-    public User(String id, String username, String imageURL, int winnings, int losses) {
+    public User(String id, String username, String imageURL, boolean gravatar, int winnings, int losses) {
         this.id = id;
         this.username = username;
         this.winnings = winnings;
         this.losses = losses;
         this.imageURL = imageURL;
+        this.gravatar = gravatar;
     }
 
     public String getId() {
@@ -56,5 +58,13 @@ public class User {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public boolean isGravatar() {
+        return gravatar;
+    }
+
+    public void setGravatar(boolean gravatar) {
+        this.gravatar = gravatar;
     }
 }
