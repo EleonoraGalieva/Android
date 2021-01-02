@@ -39,4 +39,6 @@
     <string name="y">Y</string>
     <string name="z">Z</string>
     <string name="stats">Stats</string>
+    <string name="change_your_nickname">Change your nickname:</string>
+    <string name="save_changes">Save changes</string>
 </resources>

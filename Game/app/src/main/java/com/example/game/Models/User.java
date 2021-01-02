@@ -5,17 +5,17 @@ public class User {
     private String username;
     private int winnings;
     private int losses;
-    //add image handling
-
+    private String imageURL;
 
     public User() {
     }
 
-    public User(String id, String username, int winnings, int losses) {
+    public User(String id, String username, String imageURL, int winnings, int losses) {
         this.id = id;
         this.username = username;
         this.winnings = winnings;
         this.losses = losses;
+        this.imageURL = imageURL;
     }
 
     public String getId() {
@@ -48,5 +48,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }

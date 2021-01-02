@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity {
                     HashMap<String, Object> hashMap = new HashMap<>();
                     hashMap.put("id", userId);
                     hashMap.put("username", username);
-                    //do the image input
+                    hashMap.put("imageURL", "default");
                     hashMap.put("winnings", 0);
                     hashMap.put("losses", 0);
                     databaseReference.setValue(hashMap);

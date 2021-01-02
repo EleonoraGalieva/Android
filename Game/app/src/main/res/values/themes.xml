@@ -9,7 +9,7 @@
         <item name="colorOnSecondary">@color/black</item>
     </style>
 
-    <style name="Toolbar">
+    <style name="Toolbar" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">?attr/actionBarSize</item>
         <item name="android:background">@color/colorPrimary</item>

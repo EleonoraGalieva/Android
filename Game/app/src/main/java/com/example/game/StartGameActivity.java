@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.game.Adapters.RoomsDataAdapter;
 import com.example.game.Adapters.UsersDataAdapter;
 import com.example.game.Models.Game;
@@ -38,10 +39,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class StartGameActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private EditText roomNameInput;
     private ProgressBar progressBar;
+    private CircleImageView profileImage;
 
     private RecyclerView recyclerViewUsers;
     private RecyclerView recyclerViewRooms;
@@ -69,6 +73,7 @@ public class StartGameActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.getUsersProgressBar);
         recyclerViewUsers = findViewById(R.id.usersList);
         recyclerViewRooms = findViewById(R.id.roomsList);
+        profileImage=findViewById(R.id.profileImage);
 
         currentUserFirebase = FirebaseAuth.getInstance().getCurrentUser();
         readUsers();
@@ -172,6 +177,11 @@ public class StartGameActivity extends AppCompatActivity {
                         users.add(user);
                     } else {
                         currentUser = user;
+                        if(currentUser.getImageURL().equals("default")){
+                            profileImage.setImageResource(R.mipmap.ic_launcher);
+                        } else {
+                            Glide.with(StartGameActivity.this).load(currentUser.getImageURL()).into(profileImage);
+                        }
                     }
                 }
                 usersDataAdapter.notifyDataSetChanged();
@@ -252,9 +262,8 @@ public class StartGameActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setPositiveButton("OK",
                         (dialog, id) -> {
-                            if (userInput.getText() == null) {
+                            if (userInput.getText().toString().isEmpty()) {
                                 Toast.makeText(getApplicationContext(), "Please, input a word", Toast.LENGTH_SHORT).show();
-                                // dialog.cancel();
                                 return;
                             }
                             databaseReference = FirebaseDatabase.getInstance().getReference("rooms").child(selectedRoom.getId());
